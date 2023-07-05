@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "zoo-wes-runner"
+version = "0.1.0"
+description = ""
+authors = ["Alex Manning <alexander.manning@stfc.ac.uk>"]
+readme = "README.md"
+packages = [{include = "zoo_wes_runner"}]
+license = "BSD-3-Clause"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+zoo-calrissian-runner = {git = "https://github.com/EOEPCA/zoo-calrissian-runner", tag="0.1.6"}
+httpx = "^0.24.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+
+[tool.isort]
+profile = "black"
+
+[tool.pylint.'MESSAGES CONTROL']
+max-line-length = 100
