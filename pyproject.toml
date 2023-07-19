@@ -8,7 +8,7 @@ packages = [{include = "zoo_wes_runner"}]
 license = "BSD-3-Clause"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.8"
 zoo-calrissian-runner = {git = "https://github.com/EOEPCA/zoo-calrissian-runner", tag="0.1.6"}
 httpx = "^0.24.1"
 
