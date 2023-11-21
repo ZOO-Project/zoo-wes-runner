@@ -1,3 +1,3 @@
-from .wes_runner import WESZooRunner
+from .wes_runner import ZooWESRunner
 
-__all__ = ["WESZooRunner"]
+__all__ = ["ZooWESRunner"]
