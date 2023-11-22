@@ -44,6 +44,11 @@ class ZooWESRunner(base.BaseZooRunner):
             },
             files={"workflow_attachment": ("job.cwl", yaml.dump(cwljob.cwl, encoding="utf-8"))},
         )
+        if response.status_code != 200:
+            logger.warning(response)
+            logger.warning(response.json())
+            # todo: how do we raise an error that zoo can understand.
+
         logger.warning(response)
         logger.warning(response.json())
         run_id = response.json()["run_id"]
