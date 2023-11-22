@@ -15,7 +15,7 @@ class ZooWESRunner(base.BaseZooRunner):
         super().__init__(*args, **kwargs)
 
         # Todo: what is the proper way to pass through the config from Zoo?
-        wes_url = "http://whereever/ga4gh/wes/v1/"
+        wes_url = "http://192.168.3.146/ga4gh/wes/v1/"
         user = "some-user"
         password = "some-password"
 
