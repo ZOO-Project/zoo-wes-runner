@@ -44,6 +44,8 @@ class ZooWESRunner(base.BaseZooRunner):
             },
             files={"workflow_attachment": ("job.cwl", yaml.dump(cwljob.cwl, encoding="utf-8"))},
         )
+        logger.warning(response)
+        logger.warning(response.json())
         run_id = response.json()["run_id"]
 
         self.update_status(progress=18, message="execution submitted")
