@@ -61,13 +61,17 @@ class ZooWESRunner(base.BaseZooRunner):
         # Todo: perhaps send an self.update_status when the job moves from queued, to init to running.
         state = "QUEUED"
         while state in ["QUEUED", "INITIALIZING", "RUNNING"]:
+            logger.warning("Checking status of job")
             response = self.httpx.get(f"/runs/{run_id}/status")
+            logger.warning(response.json())
             state = response.json()["state"]
             time.sleep(self.monitor_interval)
 
         # When the job has finished, find out what happened.
+        logger.warning("Getting job result.")
         response = self.httpx.get(f"/runs/{run_id}/")
         result = response.json()
+        logger.warning(result)
 
         if result["state"] == "COMPLETE":
             exit_value = base.zoo.SERVICE_SUCCEEDED
