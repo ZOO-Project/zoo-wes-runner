@@ -30,8 +30,8 @@ class ZooWESRunner(base.BaseZooRunner):
             return base.zoo.SERVICE_FAILED
 
         cwljob = self.prepare()
-        logger.error(dir(cwljob))
-        logger.error(cwljob.cwl)
+        #logger.error(cwljob.cwl)
+        logger.error(cwljob.params)
 
         # Submit the job.
         # Todo: how do we get the correct URL with the #fragment ?
