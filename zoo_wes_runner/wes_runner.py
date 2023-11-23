@@ -30,7 +30,8 @@ class ZooWESRunner(base.BaseZooRunner):
             return base.zoo.SERVICE_FAILED
 
         cwljob = self.prepare()
-        logger.error(cwljob)
+        logger.error(dir(cwljob))
+        logger.error(cwljob.cwl)
 
         # Submit the job.
         # Todo: how do we get the correct URL with the #fragment ?
@@ -39,7 +40,7 @@ class ZooWESRunner(base.BaseZooRunner):
         response = self.httpx.post(
             "/runs",
             data={
-                "workflow_url": "job.cwl#water_bodies",
+                "workflow_url": "job.cwl",
                 "workflow_type": "cwl",
                 "workflow_type_version": "v1.0",
                 "workflow_params": json.dumps(cwljob.params),
