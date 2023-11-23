@@ -20,7 +20,8 @@ class ZooWESRunner(base.BaseZooRunner):
         password = "some-password"
 
         # Initialise a httpx client to re-use.
-        self.httpx = httpx.Client(base_url=wes_url, auth=(user, password), trust_env=False)
+        self.basic_auth = httpx.BasicAuth(user, password)
+        self.httpx = httpx.Client(base_url=wes_url, auth=self.basic_auth, trust_env=False)
 
     def execute(self):
         """Execute some CWL on a WES Server."""
@@ -45,8 +46,9 @@ class ZooWESRunner(base.BaseZooRunner):
             files={"workflow_attachment": ("job.cwl", yaml.dump(cwljob.cwl, encoding="utf-8"))},
         )
         if response.status_code != 200:
-            logger.warning(response)
-            logger.warning(response.json())
+            logger.error("Process request failed.")
+            logger.error(response)
+            logger.error(response.json())
             # todo: how do we raise an error that zoo can understand.
 
         logger.warning(response)
