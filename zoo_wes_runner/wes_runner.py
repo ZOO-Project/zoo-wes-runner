@@ -20,7 +20,7 @@ class ZooWESRunner(base.BaseZooRunner):
         password = "some-password"
 
         # Initialise a httpx client to re-use.
-        self.httpx = httpx.Client(base_url=wes_url, auth=(user, password))
+        self.httpx = httpx.Client(base_url=wes_url, auth=(user, password), trust_env=False)
 
     def execute(self):
         """Execute some CWL on a WES Server."""
