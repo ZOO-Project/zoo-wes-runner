@@ -12,6 +12,8 @@ logger = logging.getLogger()
 
 class ZooWESRunner(base.BaseZooRunner):
     def __init__(self, *args, **kwargs):
+        logger.error(args)
+        logger.error(kwargs)
         super().__init__(*args, **kwargs)
 
         # Todo: what is the proper way to pass through the config from Zoo?
@@ -30,7 +32,7 @@ class ZooWESRunner(base.BaseZooRunner):
             return base.zoo.SERVICE_FAILED
 
         cwljob = self.prepare()
-        #logger.error(cwljob.cwl)
+        # logger.error(cwljob.cwl)
         logger.error(cwljob.params)
 
         # Submit the job.
