@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 import time
 
 import httpx
@@ -12,18 +13,17 @@ logger = logging.getLogger()
 
 class ZooWESRunner(base.BaseZooRunner):
     def __init__(self, *args, **kwargs):
-        logger.error(args)
-        logger.error(kwargs)
         super().__init__(*args, **kwargs)
 
-        # Todo: what is the proper way to pass through the config from Zoo?
-        wes_url = "http://192.168.3.146/ga4gh/wes/v1/"
-        user = "some-user"
-        password = "some-password"
-
         # Initialise a httpx client to re-use.
-        self.basic_auth = httpx.BasicAuth(user, password)
-        self.httpx = httpx.Client(base_url=wes_url, auth=self.basic_auth, trust_env=False)
+        self.basic_auth = httpx.BasicAuth(
+            os.environ.get("WES_USER"), os.environ.get("WES_PASSWORD")
+        )
+        self.httpx = httpx.Client(
+            base_url=os.environ.get("WES_URL"), auth=self.basic_auth, trust_env=False
+        )
+
+        logger.error(self.inputs)
 
     def execute(self):
         """Execute some CWL on a WES Server."""
