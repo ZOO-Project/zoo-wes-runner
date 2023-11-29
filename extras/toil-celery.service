@@ -1,0 +1,10 @@
+[Unit]
+Description=Celery service for toil server.
+
+[Service]
+Environment="PATH=/opt/toil/environ/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin"
+ExecStart=/opt/toil/environ/bin/celery -A toil.server.celery_app worker --loglevel=DEBUG
+User=eoepca-toil
+
+[Install]
+WantedBy=multi-user.target

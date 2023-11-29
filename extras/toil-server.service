@@ -1,0 +1,18 @@
+[Unit]
+Description=TOIL WES server.
+
+[Service]
+Environment="PATH=/opt/toil/environ/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin"
+ExecStart=/opt/toil/environ/bin/toil server \
+		--debug \
+		--opt=--batchSystem=slurm \
+		--opt=--defaultMemory=500Mi \
+		--opt=--maxMemory=100Gi \
+		--opt=--singularity \
+		--work_dir /opt/toil/toil_storage/server_work_dir \
+		--state_store /opt/toil/toil_storage/state_store
+
+User=eoepca-toil
+
+[Install]
+WantedBy=multi-user.target
