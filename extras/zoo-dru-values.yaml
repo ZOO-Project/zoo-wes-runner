@@ -1,0 +1,29 @@
+---
+workflow:
+  storageClass: standard
+  inputs:
+    # The address of your WES server FROM THE ADES.
+    WES_URL: "https://<url-of-wes-server>/ga4gh/wes/v1/"
+    WES_USER: "yourusername"
+    WES_PASSWORD: "yourpassword"
+  additionalInputs:
+    STAGEOUT_AWS_REGION: RegionOne
+    STAGEOUT_AWS_ACCESS_KEY_ID: <yourkeyid>
+    STAGEOUT_AWS_SECRET_ACCESS_KEY: <yoursecret>
+    # This must be the address which the obect sore is accessiible at FROM THE WES SERVER.
+    STAGEOUT_AWS_SERVICEURL: <address.of.object.store>
+    STAGEOUT_OUTPUT: s3://processingresults
+
+cookiecutter:
+  templateUrl: https://github.com/cedadev/eoepca-proc-service-template-wes.git
+  templateBranch: main
+
+zoofpm:
+  image:
+    repository: ghcr.io/alexm-stfc/ades-wes
+    tag: latest
+
+zookernel:
+  image:
+    repository: ghcr.io/alexm-stfc/ades-wes
+    tag: latest
