@@ -1,6 +1,5 @@
 ---
 workflow:
-  storageClass: standard
   inputs:
     # The address of your WES server FROM THE ADES.
     WES_URL: "https://<url-of-wes-server>/ga4gh/wes/v1/"
