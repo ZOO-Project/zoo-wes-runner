@@ -27,7 +27,7 @@ An example set of steps which works on our system is given below:
 		--jobStore /opt/toil/toil_storage/example/job_store/$(uuidgen) \
 		example/app-package.cwl#water_bodies \
 		example/params.yaml
-```
+``
 * Additional parameters you can give to toil-cwl-runner are given [here](https://toil.readthedocs.io/en/latest/running/cliOptions.html)
 
 ## Configuring and starting the TOIL server
