@@ -61,8 +61,8 @@ class ZooWESRunner(base.BaseZooRunner):
 
         self.update_status(progress=18, message="execution submitted")
 
-        # Watch the submitted job to see if it fails.
         # Todo: perhaps send an self.update_status when the job moves from queued, to init to running.
+        # Watch the submitted job to see if it fails.
         state = "QUEUED"
         while state in ["QUEUED", "INITIALIZING", "RUNNING"]:
             logger.warning("Checking status of job")
@@ -71,13 +71,7 @@ class ZooWESRunner(base.BaseZooRunner):
             state = response.json()["state"]
             time.sleep(self.monitor_interval)
 
-        # When the job has finished, find out what happened.
-        logger.warning("Getting job result.")
-        response = self.httpx.get(f"/runs/{run_id}/")
-        result = response.json()
-        logger.warning(result)
-
-        if result["state"] == "COMPLETE":
+        if state == "COMPLETE":
             exit_value = base.zoo.SERVICE_SUCCEEDED
         else:
             exit_value = base.zoo.SERVICE_FAILED
