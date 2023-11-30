@@ -12,6 +12,24 @@
 * `yum install apptainer apptainer-suid` on every node.
 
 ## Checking TOIL is working in your environment
+Before continuing, you should check that TOIL jobs work when you submit them locally, and use this to iterate on the extra parameters you need to give to TOIL (eg default memory allocation, batch system) to get this to work on your system.
+An example set of steps which works on our system is given below:
+* `cd /opt/toil`
+* `mkdir -p example && mkdir -p toil_storage/example/{work_dir,job_store}`
+* Copy the example CWL and params from the `extras/example` folder in this repo to `/opt/toil/example`.
+* ```bash
+	toil-cwl-runner \
+		--batchSystem slurm \
+		--defaultMemory 500Mi \
+		--maxMemory 100Gi \
+		--singularity \
+		--workDir /opt/toil/toil_storage/example/work_dir \
+		--jobStore /opt/toil/toil_storage/example/job_store/$(uuidgen) \
+		example/app-package.cwl#water_bodies \
+		example/params.yaml
+```
+* Additional parameters you can give to toil-cwl-runner are given [here](https://toil.readthedocs.io/en/latest/running/cliOptions.html)
+
 ## Configuring and starting the TOIL server
 To start TOIL in server mode, some additional configuration is required.
 A number of services must be started, as described [here](https://toil.readthedocs.io/en/latest/running/server/wes.html).
