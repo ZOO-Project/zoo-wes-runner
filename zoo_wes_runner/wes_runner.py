@@ -12,6 +12,8 @@ logger = logging.getLogger()
 
 
 class ZooWESRunner(base.BaseZooRunner):
+    """We wrap the base zoo runner but add our own execution step."""
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -31,14 +33,10 @@ class ZooWESRunner(base.BaseZooRunner):
             logger.error("Mandatory parameters missing")
             return base.zoo.SERVICE_FAILED
 
+        # Prepare the CWL.
         cwljob = self.prepare()
-        # logger.error(cwljob.cwl)
-        logger.error(cwljob.params)
 
         # Submit the job.
-        # Todo: how do we get the correct URL with the #fragment ?
-        # Todo: are the cwl and params from pre_execute always json/yaml dumpable?
-        # Todo: maybe some of these need to be configurable.
         response = self.httpx.post(
             "/runs",
             data={
@@ -49,19 +47,18 @@ class ZooWESRunner(base.BaseZooRunner):
             },
             files={"workflow_attachment": ("job.cwl", yaml.dump(cwljob.cwl, encoding="utf-8"))},
         )
+        # If the response wasn't 200, something went wrong. Exit.
         if response.status_code != 200:
             logger.error("Process request failed.")
             logger.error(response)
             logger.error(response.json())
-            # todo: how do we raise an error that zoo can understand.
+            return base.zoo.SERVICE_FAILED
 
-        logger.warning(response)
-        logger.warning(response.json())
+        # Store the run_id so we can watch the job.
         run_id = response.json()["run_id"]
 
-        self.update_status(progress=18, message="execution submitted")
+        self.update_status(progress=20, message="execution submitted")
 
-        # Todo: perhaps send an self.update_status when the job moves from queued, to init to running.
         # Watch the submitted job to see if it fails.
         state = "QUEUED"
         while state in ["QUEUED", "INITIALIZING", "RUNNING"]:
@@ -71,13 +68,20 @@ class ZooWESRunner(base.BaseZooRunner):
             state = response.json()["state"]
             time.sleep(self.monitor_interval)
 
+            if state == "QUEUED":
+                self.update_status(progress=21, message="job has been queued.")
+            if state == "INITIALIZING":
+                self.update_status(progress=22, message="job is initializing.")
+            if state == "RUNNING":
+                self.update_status(progress=50, message="job is running.")
+
+        # Once the job has finished, we exit with success if TOIl reports complete,
+        # Otherwise, fail.
         if state == "COMPLETE":
             exit_value = base.zoo.SERVICE_SUCCEEDED
         else:
             exit_value = base.zoo.SERVICE_FAILED
 
-        # todo: what outputs are required, and what format do they need to be in?
-        # todo: we can probably come up with a simple usage report by combining slurm resources and runtime.
-        self.outputs.set_output(result)
-
+        # Final status update then exit.
+        self.update_status(progress=100, message="successful.")
         return exit_value

@@ -2,6 +2,7 @@
 
 These are derived here from the zoo-calrissian-runner because no generic abstract classes exist.
 """
+
 import logging
 import types
 
@@ -32,4 +33,5 @@ class BaseZooRunner(zoo_calrissian_runner.ZooCalrissianRunner):
         return types.SimpleNamespace(cwl=self.wrap(), params=processing_parameters)
 
     def execute(self):
+        """This function should be implmented to provide job exection logic."""
         raise NotImplementedError
