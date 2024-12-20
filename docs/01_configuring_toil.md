@@ -34,18 +34,52 @@ An example set of steps which works on our system is given below:
 To start TOIL in server mode, some additional configuration is required.
 A number of services must be started, as described [here](https://toil.readthedocs.io/en/latest/running/server/wes.html).
 All of these commands are run on the same SLRUM headnode.
+
 ### Start a rabbitmq server
+#### With Docker
 Toil's celery worker requires a rabbitmq broker. You cn start this with docker using the following command:
 ```bash
 docker run -d --restart=always --name toil-wes-rabbitmq -p 127.0.0.1:5672:5672 rabbitmq:3.9.5
 ```
+
+#### With Apptainer
+If apptainer is available but no docker, use the command below:
+```bash
+apptainer run \
+    --bind $(pwd)/etc:/opt/bitnami/rabbitmq/etc/rabbitmq/ \
+    --bind $(pwd)/var_lib:/opt/bitnami/rabbitmq/var/lib/rabbitmq \
+    --bind $(pwd)/.rabbitmq:/opt/bitnami/rabbitmq/.rabbitmq/ \
+    --bind $(pwd)/tmp:/bitnami/rabbitmq/ \
+    docker://bitnami/rabbitmq:latest
+```
+
 ### Start TOIL's Celery worker
+
+#### Without systemd 
+* Edit the file venv3.11/lib/python3.11/site-packages/toil/server/celery_app.py and replace user as username and password with the one you defined in the rabbitmq server (per default, you can use `user` as username and `bitnami` as password).
+
+```bash
+source ~/venv3.11/bin/activate
+celery --broker=amqp://user:bitnami@127.0.0.1:5672// -A toil.server.celery_app worker --loglevel=INFO
+```
+
+#### With systemd
 This will be started using a systemd unit.
 * Copy `extras/toil-celery.service` to `/etc/systemd/system`
 * Configure this file to run as the appropriate user, and to call toil from the appropriate location if you are not using the location above.
 * `systemctl daemon-reload && systemctl start toil-celery && systemctl enable toil-celery`
 
 ### Start the TOIL WES Server
+
+#### Without systemd
+The WES server can be started with the following command:
+
+```bash
+source ~/venv3.11/bin/activate
+TOIL_WES_BROKER_URL=amqp://user:bitnami@127.0.0.1:5672//  toil server --opt="--singularity" 
+```
+
+#### With systemd
 This will be started using a systemd unit.
 * Copy `extras/toil-server.service` to `/etc/systemd/system`
 * Configure this file to run as the appropriate user, and to call toil from the appropriate location if you are not using the location above.
@@ -58,3 +92,5 @@ The TOIL WES API is exposed through a reverse proxy, which allows us to add basi
 * Create a basic auth user and password for toil: `htpasswd ./htpasswd toil-username` and make a password. Make sure you note the password down.
 * Configure nginx using the configuration snippet in `extras/nginx.conf`. You should makse sure https is used to secure the authentication.
 * Expose nginx port you configured abover (probably 443) through the firewall.
+
+
