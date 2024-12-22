@@ -67,20 +67,31 @@ class ZooWESRunner(base.BaseZooRunner):
             logger.warning(response.json())
             state = response.json()["state"]
             time.sleep(self.monitor_interval)
+            logger.warning(f"Response json: {response.json()}")
+
 
             if state == "QUEUED":
-                self.update_status(progress=21, message="job has been queued.")
+                self.update_status(progress=21, message="Job has been queued on the HPC.")
             if state == "INITIALIZING":
-                self.update_status(progress=22, message="job is initializing.")
+                self.update_status(progress=22, message="Job is initializing on the HPC.")
             if state == "RUNNING":
-                self.update_status(progress=50, message="job is running.")
+                self.update_status(progress=50, message="Job is running on the HPC.")
 
+        self.update_status(progress=90, message="Job has finished on the HPC.")
         # Once the job has finished, we exit with success if TOIl reports complete,
         # Otherwise, fail.
         if state == "COMPLETE":
             exit_value = base.zoo.SERVICE_SUCCEEDED
         else:
             exit_value = base.zoo.SERVICE_FAILED
+
+        # Get the outputs and log.
+        self.update_status(progress=90, message="successful.")
+        response = self.httpx.get(f"/runs/{run_id}")
+        json_response = response.json()
+        self.demo_outputs = json_response.get("outputs", {})
+        self.run_log = json_response.get("run_log", {})
+        self.run_log_content = self.httpx.get(f"/runs/{self.run_log['stderr']}").text
 
         # Final status update then exit.
         self.update_status(progress=100, message="successful.")
