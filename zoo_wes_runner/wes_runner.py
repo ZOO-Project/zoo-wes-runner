@@ -54,8 +54,15 @@ class ZooWESRunner(base.BaseZooRunner):
             logger.error(response.json())
             return base.zoo.SERVICE_FAILED
 
-        # Store the run_id so we can watch the job.
+        # Store the run_id so we can watch or cancel the job.
         run_id = response.json()["run_id"]
+        self.zoo_conf.conf["lenv"]["run_id"] = run_id
+        logger.debug(self.zoo_conf.conf["lenv"])
+        with open(self.zoo_conf.conf["lenv"]["cwd"] +"/temp/"+ self.zoo_conf.conf["lenv"]["usid"] +"_lenv.cfg", "w") as f:
+            f.write("[lenv]\n")
+            for a, b in self.zoo_conf.conf["lenv"].items():
+                f.write(f"{a} = {b}\n")
+            f.close()
 
         self.update_status(progress=20, message="execution submitted")
 
