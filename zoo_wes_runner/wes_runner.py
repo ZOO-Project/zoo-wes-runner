@@ -103,3 +103,10 @@ class ZooWESRunner(base.BaseZooRunner):
         # Final status update then exit.
         self.update_status(progress=100, message="successful.")
         return exit_value
+
+    def dismiss(self):
+        """Cancel the job."""
+        run_id = self.zoo_conf.conf["lenv"]["run_id"]
+        response = self.httpx.post(f"/runs/{run_id}/cancel")
+        logger.warning(response.json())
+        return base.zoo.SERVICE_SUCCEEDED
