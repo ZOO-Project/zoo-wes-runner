@@ -15,7 +15,10 @@ class ZooWESRunner(base.BaseZooRunner):
     """We wrap the base zoo runner but add our own execution step."""
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        try:
+            super().__init__(*args, **kwargs)
+        except Exception as e:
+            logger.error(f"Failed to initialise ZooWESRunner: {e}")
 
         # Initialise a httpx client to re-use.
         self.basic_auth = httpx.BasicAuth(
@@ -25,7 +28,6 @@ class ZooWESRunner(base.BaseZooRunner):
             base_url=os.environ.get("WES_URL"), auth=self.basic_auth, trust_env=False
         )
 
-        logger.error(self.inputs)
 
     def execute(self):
         """Execute some CWL on a WES Server."""
@@ -99,6 +101,13 @@ class ZooWESRunner(base.BaseZooRunner):
         self.demo_outputs = json_response.get("outputs", {})
         self.run_log = json_response.get("run_log", {})
         self.run_log_content = self.httpx.get(f"/runs/{self.run_log['stderr']}").text
+
+        self.handler.post_execution_hook(
+                log=self.run_log_content,
+                output=self.demo_outputs,
+                usage_report=None,
+                tool_logs=None
+        )
 
         # Final status update then exit.
         self.update_status(progress=100, message="successful.")
