@@ -76,8 +76,14 @@ The WES server can be started with the following command:
 
 ```bash
 source ~/venv3.11/bin/activate
-TOIL_WES_BROKER_URL=amqp://user:bitnami@127.0.0.1:5672//  toil server --opt="--singularity" 
+TOIL_WES_BROKER_URL=amqp://user:bitnami@127.0.0.1:5672//  toil server \
+	--opt=--batchSystem=slurm \
+	--opt=--defaultMemory=500Mi \
+	--opt=--maxMemory=100Gi \
+	--opt=--singularity 
 ```
+
+With these options, we ensure that the singularity container will be executed through SLURM.
 
 #### With systemd
 This will be started using a systemd unit.
