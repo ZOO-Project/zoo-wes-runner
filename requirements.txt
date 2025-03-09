@@ -1,0 +1,7 @@
+pdocs
+mkdocs
+cwl-wrapper
+kubernetes
+attrs
+mkdocs-material
+mkdocs-jupyter
