@@ -14,7 +14,7 @@ workflow:
     STAGEOUT_OUTPUT: s3://processingresults
 
 cookiecutter:
-  templateUrl: https://github.com/cedadev/eoepca-proc-service-template-wes.git
+  templateUrl: https://github.com/EOEPCA/eoepca-proc-service-template-wes.git
   templateBranch: main
 
 zoofpm:

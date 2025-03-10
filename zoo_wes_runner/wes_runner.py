@@ -15,7 +15,10 @@ class ZooWESRunner(base.BaseZooRunner):
     """We wrap the base zoo runner but add our own execution step."""
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        try:
+            super().__init__(*args, **kwargs)
+        except Exception as e:
+            logger.error(f"Failed to initialise ZooWESRunner: {e}")
 
         # Initialise a httpx client to re-use.
         self.basic_auth = httpx.BasicAuth(
@@ -25,7 +28,6 @@ class ZooWESRunner(base.BaseZooRunner):
             base_url=os.environ.get("WES_URL"), auth=self.basic_auth, trust_env=False
         )
 
-        logger.error(self.inputs)
 
     def execute(self):
         """Execute some CWL on a WES Server."""
@@ -54,8 +56,15 @@ class ZooWESRunner(base.BaseZooRunner):
             logger.error(response.json())
             return base.zoo.SERVICE_FAILED
 
-        # Store the run_id so we can watch the job.
+        # Store the run_id so we can watch or cancel the job.
         run_id = response.json()["run_id"]
+        self.zoo_conf.conf["lenv"]["run_id"] = run_id
+        logger.debug(self.zoo_conf.conf["lenv"])
+        with open(self.zoo_conf.conf["lenv"]["cwd"] +"/temp/"+ self.zoo_conf.conf["lenv"]["usid"] +"_lenv.cfg", "w") as f:
+            f.write("[lenv]\n")
+            for a, b in self.zoo_conf.conf["lenv"].items():
+                f.write(f"{a} = {b}\n")
+            f.close()
 
         self.update_status(progress=20, message="execution submitted")
 
@@ -67,14 +76,17 @@ class ZooWESRunner(base.BaseZooRunner):
             logger.warning(response.json())
             state = response.json()["state"]
             time.sleep(self.monitor_interval)
+            logger.warning(f"Response json: {response.json()}")
+
 
             if state == "QUEUED":
-                self.update_status(progress=21, message="job has been queued.")
+                self.update_status(progress=21, message="Job has been queued on the HPC.")
             if state == "INITIALIZING":
-                self.update_status(progress=22, message="job is initializing.")
+                self.update_status(progress=22, message="Job is initializing on the HPC.")
             if state == "RUNNING":
-                self.update_status(progress=50, message="job is running.")
+                self.update_status(progress=50, message="Job is running on the HPC.")
 
+        self.update_status(progress=90, message="Job has finished on the HPC.")
         # Once the job has finished, we exit with success if TOIl reports complete,
         # Otherwise, fail.
         if state == "COMPLETE":
@@ -82,6 +94,28 @@ class ZooWESRunner(base.BaseZooRunner):
         else:
             exit_value = base.zoo.SERVICE_FAILED
 
+        # Get the outputs and log.
+        self.update_status(progress=90, message="successful.")
+        response = self.httpx.get(f"/runs/{run_id}")
+        json_response = response.json()
+        self.demo_outputs = json_response.get("outputs", {})
+        self.run_log = json_response.get("run_log", {})
+        self.run_log_content = self.httpx.get(f"/runs/{self.run_log['stderr']}").text
+
+        self.handler.post_execution_hook(
+                log=self.run_log_content,
+                output=self.demo_outputs,
+                usage_report=None,
+                tool_logs=None
+        )
+
         # Final status update then exit.
         self.update_status(progress=100, message="successful.")
         return exit_value
+
+    def dismiss(self):
+        """Cancel the job."""
+        run_id = self.zoo_conf.conf["lenv"]["run_id"]
+        response = self.httpx.post(f"/runs/{run_id}/cancel")
+        logger.warning(response.json())
+        return base.zoo.SERVICE_SUCCEEDED

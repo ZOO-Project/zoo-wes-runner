@@ -15,9 +15,6 @@ logger = logging.getLogger()
 class BaseZooRunner(zoo_calrissian_runner.ZooCalrissianRunner):
     """Mangle the ZooCalrissianRunner to be a base class to inherit from."""
 
-    shorten_namespace = None
-    get_namespace_name = None
-
     def prepare(self):
         """Generic pre-execution which applies to all handlers."""
 

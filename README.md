@@ -1,7 +1,7 @@
 ## Zoo-WES-Runner
 
-This repository is a plugin for the [Zoo Project](https://github.com/ZOO-Project/ZOO-Project), which allows it submit jobs to a [Workflow Execution Service (WES)](https://ga4gh.github.io/workflow-execution-service-schemas/docs/).
-This allows the zoo project to submit jobs to run in a number of different environments.
+This repository is a plugin for the [ZOO-Project](https://github.com/ZOO-Project/ZOO-Project), which allows it submit jobs to a [Workflow Execution Service (WES)](https://ga4gh.github.io/workflow-execution-service-schemas/docs/).
+This allows the ZOO-Project to submit jobs to run in a number of different environments.
 
 This work is undertaken as part of the deployment of the [EOEPCA](https://ga4gh.github.io/workflow-execution-service-schemas/docs/) on [JASMIN](https://jasmin.ac.uk).
 
