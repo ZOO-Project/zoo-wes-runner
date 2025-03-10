@@ -1,8 +1,8 @@
-## Configuring the ADES.
+## Configuring the ZOO-Project-DRU.
 
-The ADES must be configured to do the following:
+The ZOO-Project-DRU must be configured to do the following:
 
- * Run an ADES docker image which has the python packaged contained in this repo installed.
+ * Run an ZOO-Project docker image which has the python packaged contained in this repo installed.
  * Use the cookiecutter from [here](https://github.com/EOEPCA/eoepca-proc-service-template-wes/) instead of the one for calrissian.
  * Pass the URL and basic auth information as environment variables into the image.
 
@@ -12,7 +12,7 @@ Once you have a complete values file, this can be installed into your kubernetes
 
 ````
 helm upgrade --install \
-    --create-namespace --namespace zp zoo-dru \
+    --create-namespace --namespace zoo zoo-project-dru \
     zoo-project/zoo-project-dru \
     --version 0.1.1 \
     --values ./values.yaml
