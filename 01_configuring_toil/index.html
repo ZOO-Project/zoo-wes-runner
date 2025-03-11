@@ -1,0 +1,945 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Zoo WES Runner">
+      
+      
+      
+        <link rel="canonical" href="https://eoepca.github.io/eoepca-zoo-wes-runner/01_configuring_toil/">
+      
+      
+        <link rel="prev" href="../installation/">
+      
+      
+        <link rel="next" href="../02_configuring_ades/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.0">
+    
+    
+      
+        <title>toil settings - ZOO WES Runner</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.9f615399.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#prerequisites" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="ZOO WES Runner" class="md-header__button md-logo" aria-label="ZOO WES Runner" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ZOO WES Runner
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              toil settings
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/EOEPCA/eoepca-zoo-wes-runner" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    eoepca/eoepca-zoo-wes-runner
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="ZOO WES Runner" class="md-nav__button md-logo" aria-label="ZOO WES Runner" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    ZOO WES Runner
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/EOEPCA/eoepca-zoo-wes-runner" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    eoepca/eoepca-zoo-wes-runner
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Getting started
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Getting started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    toil settings
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    toil settings
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-and-setup" class="md-nav__link">
+    Installation and Setup
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation and Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-toil" class="md-nav__link">
+    Install TOIL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-apptainer-formerly-singularity-on-all-the-slurm-nodes" class="md-nav__link">
+    Install apptainer (formerly singularity) on all the SLURM nodes.
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checking-toil-is-working-in-your-environment" class="md-nav__link">
+    Checking TOIL is working in your environment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-and-starting-the-toil-server" class="md-nav__link">
+    Configuring and starting the TOIL server
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuring and starting the TOIL server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#start-a-rabbitmq-server" class="md-nav__link">
+    Start a rabbitmq server
+  </a>
+  
+    <nav class="md-nav" aria-label="Start a rabbitmq server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#with-docker" class="md-nav__link">
+    With Docker
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-apptainer" class="md-nav__link">
+    With Apptainer
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-toils-celery-worker" class="md-nav__link">
+    Start TOIL's Celery worker
+  </a>
+  
+    <nav class="md-nav" aria-label="Start TOIL's Celery worker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#without-systemd" class="md-nav__link">
+    Without systemd
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-systemd" class="md-nav__link">
+    With systemd
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-the-toil-wes-server" class="md-nav__link">
+    Start the TOIL WES Server
+  </a>
+  
+    <nav class="md-nav" aria-label="Start the TOIL WES Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#without-systemd_1" class="md-nav__link">
+    Without systemd
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-systemd_1" class="md-nav__link">
+    With systemd
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reverse-proxy-the-wes-api-using-ngix" class="md-nav__link">
+    Reverse proxy the WES API Using ngix.
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_configuring_ades/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Network settings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            API
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/zoo_wes_runner/base/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    base
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/zoo_wes_runner/wes_runner/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    zoo_wes_runner
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-and-setup" class="md-nav__link">
+    Installation and Setup
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation and Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-toil" class="md-nav__link">
+    Install TOIL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-apptainer-formerly-singularity-on-all-the-slurm-nodes" class="md-nav__link">
+    Install apptainer (formerly singularity) on all the SLURM nodes.
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checking-toil-is-working-in-your-environment" class="md-nav__link">
+    Checking TOIL is working in your environment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-and-starting-the-toil-server" class="md-nav__link">
+    Configuring and starting the TOIL server
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuring and starting the TOIL server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#start-a-rabbitmq-server" class="md-nav__link">
+    Start a rabbitmq server
+  </a>
+  
+    <nav class="md-nav" aria-label="Start a rabbitmq server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#with-docker" class="md-nav__link">
+    With Docker
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-apptainer" class="md-nav__link">
+    With Apptainer
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-toils-celery-worker" class="md-nav__link">
+    Start TOIL's Celery worker
+  </a>
+  
+    <nav class="md-nav" aria-label="Start TOIL's Celery worker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#without-systemd" class="md-nav__link">
+    Without systemd
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-systemd" class="md-nav__link">
+    With systemd
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-the-toil-wes-server" class="md-nav__link">
+    Start the TOIL WES Server
+  </a>
+  
+    <nav class="md-nav" aria-label="Start the TOIL WES Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#without-systemd_1" class="md-nav__link">
+    Without systemd
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-systemd_1" class="md-nav__link">
+    With systemd
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reverse-proxy-the-wes-api-using-ngix" class="md-nav__link">
+    Reverse proxy the WES API Using ngix.
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+  <h1>toil settings</h1>
+
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>A user account which is able to submit jobs into SLURM. In the examples, this is <code>eoepca-toil</code>.</li>
+<li>Shared storage which is mounted on all the SLURM nodes. In the examples, this is <code>/opt/toil/toil_storage</code>.</li>
+</ul>
+<h2 id="installation-and-setup">Installation and Setup</h2>
+<h3 id="install-toil">Install TOIL</h3>
+<ul>
+<li>Make directories for toil: <code>mkdir -p /opt/toil/toil_storage &amp;&amp; cd /opt/toil</code></li>
+<li>Create a venv for the toil install <code>python3 -m venv environ &amp;&amp; cd source environ/bin/activate</code></li>
+<li>Install toil into the environ <code>python3 -m pip install toil[all]</code></li>
+</ul>
+<h3 id="install-apptainer-formerly-singularity-on-all-the-slurm-nodes">Install apptainer (formerly singularity) on all the SLURM nodes.</h3>
+<ul>
+<li><code>yum install apptainer apptainer-suid</code> on every node.</li>
+</ul>
+<h2 id="checking-toil-is-working-in-your-environment">Checking TOIL is working in your environment</h2>
+<p>Before continuing, you should check that TOIL jobs work when you submit them locally, and use this to iterate on the extra parameters you need to give to TOIL (eg default memory allocation, batch system) to get this to work on your system.</p>
+<p>An example set of steps which works on our system is given below:</p>
+<div class="highlight"><pre><span></span><code># Clone repository
+git clone -b develop https://github.com/gfenoy/eoepca-zoo-wes-runner.git
+# Move to the right location
+cd eoepca-zoo-wes-runner
+# Create the required directories
+mkdir -p toil_storage/example/{work_dir,job_store}
+# Execute a CWL Application Package using slurm batchSystem
+toil-cwl-runner \
+    --batchSystem slurm \
+    --defaultMemory 500Mi \
+    --maxMemory 100Gi \
+    --singularity \
+    --workDir toil_storage/example/work_dir \
+    --jobStore toil_storage/example/job_store/$(uuidgen) \
+    extras/example/app-package.cwl#water_bodies \
+    extras/example/params.yaml
+</code></pre></div>
+<p>Additional parameters you can give to toil-cwl-runner are given <a href="https://toil.readthedocs.io/en/latest/running/cliOptions.html">here</a></p>
+<h2 id="configuring-and-starting-the-toil-server">Configuring and starting the TOIL server</h2>
+<p>To start TOIL in server mode, some additional configuration is required.
+A number of services must be started, as described <a href="https://toil.readthedocs.io/en/latest/running/server/wes.html">here</a>.
+All of these commands are run on the same SLRUM headnode.</p>
+<h3 id="start-a-rabbitmq-server">Start a rabbitmq server</h3>
+<h4 id="with-docker">With Docker</h4>
+<p>Toil's celery worker requires a rabbitmq broker. You cn start this with docker using the following command:
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--restart<span class="o">=</span>always<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--name<span class="w"> </span>toil-wes-rabbitmq<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:5672:5672<span class="w"> </span>rabbitmq:3.9.5
+</code></pre></div></p>
+<h4 id="with-apptainer">With Apptainer</h4>
+<p>If apptainer is available but no docker, use the command below:
+<div class="highlight"><pre><span></span><code>apptainer<span class="w"> </span>run<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--bind<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/etc:/opt/bitnami/rabbitmq/etc/rabbitmq/<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--bind<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/var_lib:/opt/bitnami/rabbitmq/var/lib/rabbitmq<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--bind<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/.rabbitmq:/opt/bitnami/rabbitmq/.rabbitmq/<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--bind<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/tmp:/bitnami/rabbitmq/<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>docker://bitnami/rabbitmq:latest
+</code></pre></div></p>
+<h3 id="start-toils-celery-worker">Start TOIL's Celery worker</h3>
+<h4 id="without-systemd">Without systemd</h4>
+<ul>
+<li>Edit the file venv3.11/lib/python3.11/site-packages/toil/server/celery_app.py and replace user as username and password with the one you defined in the rabbitmq server (per default, you can use <code>user</code> as username and <code>bitnami</code> as password).</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>~/venv3.11/bin/activate
+celery<span class="w"> </span>--broker<span class="o">=</span>amqp://user:bitnami@127.0.0.1:5672//<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-A<span class="w"> </span>toil.server.celery_app<span class="w"> </span>worker<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--loglevel<span class="o">=</span>INFO
+</code></pre></div>
+<h4 id="with-systemd">With systemd</h4>
+<p>This will be started using a systemd unit.</p>
+<ul>
+<li>Copy <code>extras/toil-celery.service</code> to <code>/etc/systemd/system</code></li>
+<li>Configure this file to run as the appropriate user, and to call toil from the appropriate location if you are not using the location above.</li>
+<li><code>systemctl daemon-reload &amp;&amp; systemctl start toil-celery &amp;&amp; systemctl enable toil-celery</code></li>
+</ul>
+<h3 id="start-the-toil-wes-server">Start the TOIL WES Server</h3>
+<h4 id="without-systemd_1">Without systemd</h4>
+<p>The WES server can be started with the following command:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>~/venv3.11/bin/activate<span class="w"> </span>
+<span class="nv">TOIL_WES_BROKER_URL</span><span class="o">=</span>amqp://user:bitnami@127.0.0.1:5672//<span class="w">  </span>toil<span class="w"> </span>server<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--opt<span class="o">=</span>--batchSystem<span class="o">=</span>slurm<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--opt<span class="o">=</span>--defaultMemory<span class="o">=</span>500Mi<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--opt<span class="o">=</span>--maxMemory<span class="o">=</span>100Gi<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--opt<span class="o">=</span>--singularity<span class="w"> </span>
+</code></pre></div>
+<p>With these options, we ensure that the singularity container will be executed through SLURM.</p>
+<h4 id="with-systemd_1">With systemd</h4>
+<p>This will be started using a systemd unit.</p>
+<ul>
+<li>Copy <code>extras/toil-server.service</code> to <code>/etc/systemd/system</code></li>
+<li>Configure this file to run as the appropriate user, and to call toil from the appropriate location if you are not using the location above.</li>
+<li>You should adjust the <code>--opt</code> options to those which were required to run TOIL in the "Checking TOIL is working in your environment" step above, and you can add other options if you wish.</li>
+<li><code>systemctl daemon-reload &amp;&amp; systemctl start toil-server &amp;&amp; systemctl enable toil-server</code></li>
+</ul>
+<h3 id="reverse-proxy-the-wes-api-using-ngix">Reverse proxy the WES API Using ngix.</h3>
+<p>The TOIL WES API is exposed through a reverse proxy, which allows us to add basic authentication to the API.</p>
+<ul>
+<li><code>yum install nginx &amp;&amp; cd /etc/nginx</code></li>
+<li>Create a basic auth user and password for toil: <code>htpasswd ./htpasswd toil-username</code> and make a password. Make sure you note the password down.</li>
+<li>Configure nginx using the configuration snippet in <code>extras/nginx.conf</code>. You should makse sure https is used to secure the authentication.</li>
+<li>Expose nginx port you configured abover (probably 443) through the firewall.</li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.a264c092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.4e0fa4ba.min.js"></script>
+      
+    
+  </body>
+</html>
