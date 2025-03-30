@@ -391,29 +391,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#k8s" class="md-nav__link">
-    K8S
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#calrissian-resources" class="md-nav__link">
-    Calrissian resources
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cwl-wrapper" class="md-nav__link">
-    CWL Wrapper
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#calrissian" class="md-nav__link">
-    Calrissian
+  <a href="#wes" class="md-nav__link">
+    WES
   </a>
   
 </li>
@@ -547,29 +526,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#k8s" class="md-nav__link">
-    K8S
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#calrissian-resources" class="md-nav__link">
-    Calrissian resources
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cwl-wrapper" class="md-nav__link">
-    CWL Wrapper
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#calrissian" class="md-nav__link">
-    Calrissian
+  <a href="#wes" class="md-nav__link">
+    WES
   </a>
   
 </li>
@@ -599,30 +557,12 @@
 
 <h1 id="configuration">Configuration</h1>
 <h2 id="environment-variables">Environment variables</h2>
-<h3 id="k8s">K8S</h3>
+<h3 id="wes">WES</h3>
+<p><a href="https://toil.readthedocs.io/en/master/running/server/wes.html">WES</a> stands for Workflow Execution Service offered by toil.</p>
 <ul>
-<li><code>STORAGE_CLASS</code>: defines the k8s RWX storage class for Calrissian. Defaults to <code>longhorn</code></li>
-<li><code>KEEP_SESSION</code>: if set to <code>true</code>, the session and thus the kubernetes namespace is not deleted</li>
-</ul>
-<h3 id="calrissian-resources">Calrissian resources</h3>
-<ul>
-<li><code>SCATTER_MULTIPLIER</code>: scatter factor multiplier. Defaults to <code>2</code>.</li>
-</ul>
-<h3 id="cwl-wrapper">CWL Wrapper</h3>
-<p>The cwl-wrapper templates can be customized with the environment variables:</p>
-<ul>
-<li><code>WRAPPER_STAGE_IN</code>: CWL stage-in template for cwl-wrapper. Defaults to <code>/assets/stagein.yaml</code></li>
-<li><code>WRAPPER_STAGE_OUT</code>: CWL stage-out template for cwl-wrapper. Defaults to <code>/assets/stageout.yaml</code></li>
-<li><code>WRAPPER_MAIN</code>: cwl-wrapper main template. Defaults to <code>/assets/maincwl.yaml</code></li>
-<li><code>WRAPPER_RULES</code>: cwl-wrapper rules template Defaults to <code>/assets/rules.yaml</code></li>
-</ul>
-<h3 id="calrissian">Calrissian</h3>
-<p>Calrissian and its runtime context can be customized with:</p>
-<ul>
-<li><code>CALRISSIAN_IMAGE</code>: Calrissian container image</li>
-<li><code>DEFAULT_VOLUME_SIZE</code>: default volume size for the RWX volume used by Calrissian. Expressed in mebibytes (2**20). Defaults to <code>10000</code></li>
-<li><code>DEFAULT_MAX_CORES</code>: maximum number of cores used by Calrissian pods. Defaults to <code>2</code></li>
-<li><code>DEFAULT_MAX_RAM</code>: maximum RAM used by Calrissian pods.</li>
+<li><code>WES_URL</code>: the toil WES URL</li>
+<li><code>WES_USER</code>: the user name to authenticate to the WES</li>
+<li><code>WES_PASSWORD</code>: the password to authenticate to the WES</li>
 </ul>
 
 
