@@ -17,8 +17,8 @@ requires-python = ">=3.8"
 dependencies = [
     "httpx>=0.24.1",
     "cwl-utils",
-    "pycalrissian@git+https://github.com/Terradue/pycalrissian.git@develop",
-    "zoo-calrissian-runner@git+https://github.com/EOEPCA/zoo-calrissian-runner.git@develop"
+    "pycalrissian",
+    "zoo-calrissian-runner"
 ]
 
 [project.urls]
