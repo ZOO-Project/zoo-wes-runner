@@ -17,8 +17,7 @@ requires-python = ">=3.8"
 dependencies = [
     "httpx>=0.24.1",
     "cwl-utils",
-    "pycalrissian",
-    "zoo-calrissian-runner"
+    "zoo-runner-common"
 ]
 
 [project.urls]
@@ -66,8 +65,7 @@ skip-install = false
 dependencies = [
     "httpx>=0.24.1",
     "cwl-utils",
-    "pycalrissian",
-    "zoo-calrissian-runner"
+    "zoo-runner-common"
 ]
 
 
@@ -78,8 +76,7 @@ dependencies = [
     "coverage",
     "httpx>=0.24.1",
     "cwl-utils",
-    "pycalrissian",
-    "zoo-calrissian-runner"
+    "zoo-runner-common"
 ]
 
 [tool.hatch.envs.test.env-vars]

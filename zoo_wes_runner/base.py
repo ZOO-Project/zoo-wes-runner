@@ -1,4 +1,4 @@
-"""Bases classes for Zoo runners.
+"""Base classes for Zoo runners.
 
 These are derived here from the zoo-calrissian-runner because no generic abstract classes exist.
 """
@@ -6,13 +6,26 @@ These are derived here from the zoo-calrissian-runner because no generic abstrac
 import logging
 import types
 
-import zoo
-import zoo_calrissian_runner
+# Add zoo-calrissian-runner to path
+# import os
+# import sys
+# sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../zoo-calrissian-runner')))
+from zoo_calrissian_runner import ZooCalrissianRunner
+
+try:
+    import zoo
+except ImportError:
+    class ZooStub:
+        SERVICE_SUCCEEDED = 3
+        SERVICE_FAILED = 4
+        def update_status(self, conf, progress):
+            print(f"Status {progress}")
+    zoo = ZooStub()
 
 logger = logging.getLogger()
 
 
-class BaseZooRunner(zoo_calrissian_runner.ZooCalrissianRunner):
+class BaseZooRunner(ZooCalrissianRunner):
     """Mangle the ZooCalrissianRunner to be a base class to inherit from."""
 
     def prepare(self):
@@ -30,5 +43,5 @@ class BaseZooRunner(zoo_calrissian_runner.ZooCalrissianRunner):
         return types.SimpleNamespace(cwl=self.wrap(), params=processing_parameters)
 
     def execute(self):
-        """This function should be implmented to provide job exection logic."""
+        """This function should be implemented to provide job execution logic."""
         raise NotImplementedError

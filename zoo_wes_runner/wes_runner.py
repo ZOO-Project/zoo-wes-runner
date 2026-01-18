@@ -17,6 +17,8 @@ class ZooWESRunner(base.BaseZooRunner):
     def __init__(self, *args, **kwargs):
         try:
             super().__init__(*args, **kwargs)
+            # Alias for handler (BaseRunner uses execution_handler)
+            self.handler = self.execution_handler
         except Exception as e:
             logger.error(f"Failed to initialise ZooWESRunner: {e}")
 
