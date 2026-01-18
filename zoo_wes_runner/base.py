@@ -15,11 +15,8 @@ from zoo_calrissian_runner import ZooCalrissianRunner
 try:
     import zoo
 except ImportError:
-    class ZooStub:
-        SERVICE_SUCCEEDED = 3
-        SERVICE_FAILED = 4
-        def update_status(self, conf, progress):
-            print(f"Status {progress}")
+    # Use centralized ZooStub from zoo-runner-common package
+    from zoostub import ZooStub
     zoo = ZooStub()
 
 logger = logging.getLogger()
