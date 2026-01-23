@@ -44,17 +44,8 @@ jobs:
           NEW_VERSION: ${{ inputs.version }}
         run: |
           ABOUT_FILE=$(git ls-files "*__about__.py" | head -n 1)
-          python - <<'PY'
-import os, re
-path = os.environ.get("ABOUT_FILE")
-new = os.environ.get("NEW_VERSION")
-data = open(path, "r", encoding="utf-8").read()
-if "__version__" in data:
-    data = re.sub(r'__version__\s*=\s*"[^"]*"', f'__version__ = "{new}"', data)
-else:
-    data = re.sub(r'version\s*=\s*"[^"]*"', f'version = "{new}"', data)
-open(path, "w", encoding="utf-8").write(data)
-PY
+          export ABOUT_FILE
+          python .github/scripts/bump_version.py
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add "$ABOUT_FILE"
