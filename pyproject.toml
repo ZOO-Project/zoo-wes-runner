@@ -7,7 +7,8 @@ name = "zoo-wes-runner"
 dynamic = ["version"]
 description = "ZOO-Project-DRU runner using toil WES to process an Application Package encoded in CWL."
 authors = [
-    { name = "Alex Manning", email = "alexander.manning@stfc.ac.uk" }
+    { name = "Alex Manning", email = "alexander.manning@stfc.ac.uk" },
+    { name = "Gérald Fenoy", email = "gerald.fenoy@geolabs.fr" }
 ]
 readme = "README.md"
 packages = [{include = "zoo_wes_runner"}]
