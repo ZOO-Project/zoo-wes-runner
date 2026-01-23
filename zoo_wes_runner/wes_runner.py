@@ -14,9 +14,11 @@ logger = logging.getLogger()
 class ZooWESRunner(base.BaseZooRunner):
     """We wrap the base zoo runner but add our own execution step."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         try:
-            super().__init__(*args, **kwargs)
+            super().__init__(**kwargs)
+            # Alias for handler (BaseRunner uses execution_handler)
+            self.handler = self.execution_handler
         except Exception as e:
             logger.error(f"Failed to initialise ZooWESRunner: {e}")
 
