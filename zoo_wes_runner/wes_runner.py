@@ -14,13 +14,15 @@ logger = logging.getLogger()
 class ZooWESRunner(base.BaseZooRunner):
     """We wrap the base zoo runner but add our own execution step."""
 
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
+        """Initialize BaseZooRunner, passing all arguments to parent ZooCalrissianRunner."""
         try:
-            super().__init__(**kwargs)
+            super().__init__(*args, **kwargs)
             # Alias for handler (BaseRunner uses execution_handler)
             self.handler = self.execution_handler
         except Exception as e:
             logger.error(f"Failed to initialise ZooWESRunner: {e}")
+            raise
 
         # Initialise a httpx client to re-use.
         self.basic_auth = httpx.BasicAuth(
