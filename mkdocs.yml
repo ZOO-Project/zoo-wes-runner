@@ -1,11 +1,11 @@
-site_name: ZOO WES Runner
-site_description: 'Zoo WES Runner'
+site_name: ZOO-Project WES Runner
+site_description: 'ZOO-Project WES Runner'
 # Repository
 
-repo_name: 'eoepca/eoepca-zoo-wes-runner'
-repo_url: 'https://github.com/EOEPCA/eoepca-zoo-wes-runner'
+repo_name: 'ZOO-Project/zoo-wes-runner'
+repo_url: 'https://github.com/ZOO-Project/eoepca-zoo-wes-runner'
 edit_uri: 'blob/main/docs/src/'
-site_url: 'https://eoepca.github.io/eoepca-zoo-wes-runner/'
+site_url: 'https://zoo-project.github.io/zoo-wes-runner/'
 
 
 theme:
