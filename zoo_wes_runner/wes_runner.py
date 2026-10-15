@@ -76,8 +76,7 @@ class ZooWESRunner(base.BaseZooRunner):
             "w",
         ) as f:
             f.write("[lenv]\n")
-            for a, b in self.zoo_conf.conf["lenv"].items():
-                f.write(f"{a} = {b}\n")
+            f.writelines(f"{a} = {b}\n" for a, b in self.zoo_conf.conf["lenv"].items())
             f.close()
 
         self.update_status(progress=20, message="execution submitted")
