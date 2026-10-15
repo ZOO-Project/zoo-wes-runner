@@ -32,7 +32,6 @@ class ZooWESRunner(base.BaseZooRunner):
             base_url=os.environ.get("WES_URL"), auth=self.basic_auth, trust_env=False
         )
 
-
     def execute(self):
         """Execute some CWL on a WES Server."""
         if not self.assert_parameters():
@@ -51,7 +50,12 @@ class ZooWESRunner(base.BaseZooRunner):
                 "workflow_type_version": "v1.0",
                 "workflow_params": json.dumps(cwljob.params),
             },
-            files={"workflow_attachment": ("job.cwl", yaml.dump(cwljob.cwl, encoding="utf-8"))},
+            files={
+                "workflow_attachment": (
+                    "job.cwl",
+                    yaml.dump(cwljob.cwl, encoding="utf-8"),
+                )
+            },
         )
         # If the response wasn't 200, something went wrong. Exit.
         if response.status_code != 200:
@@ -64,7 +68,13 @@ class ZooWESRunner(base.BaseZooRunner):
         run_id = response.json()["run_id"]
         self.zoo_conf.conf["lenv"]["run_id"] = run_id
         logger.debug(self.zoo_conf.conf["lenv"])
-        with open(self.zoo_conf.conf["lenv"]["cwd"] +"/temp/"+ self.zoo_conf.conf["lenv"]["usid"] +"_lenv.cfg", "w") as f:
+        with open(
+            self.zoo_conf.conf["lenv"]["cwd"]
+            + "/temp/"
+            + self.zoo_conf.conf["lenv"]["usid"]
+            + "_lenv.cfg",
+            "w",
+        ) as f:
             f.write("[lenv]\n")
             for a, b in self.zoo_conf.conf["lenv"].items():
                 f.write(f"{a} = {b}\n")
@@ -82,11 +92,14 @@ class ZooWESRunner(base.BaseZooRunner):
             time.sleep(self.monitor_interval)
             logger.warning(f"Response json: {response.json()}")
 
-
             if state == "QUEUED":
-                self.update_status(progress=21, message="Job has been queued on the HPC.")
+                self.update_status(
+                    progress=21, message="Job has been queued on the HPC."
+                )
             if state == "INITIALIZING":
-                self.update_status(progress=22, message="Job is initializing on the HPC.")
+                self.update_status(
+                    progress=22, message="Job is initializing on the HPC."
+                )
             if state == "RUNNING":
                 self.update_status(progress=50, message="Job is running on the HPC.")
 
@@ -107,10 +120,10 @@ class ZooWESRunner(base.BaseZooRunner):
         self.run_log_content = self.httpx.get(f"/runs/{self.run_log['stderr']}").text
 
         self.handler.post_execution_hook(
-                log=self.run_log_content,
-                output=self.demo_outputs,
-                usage_report=None,
-                tool_logs=None
+            log=self.run_log_content,
+            output=self.demo_outputs,
+            usage_report=None,
+            tool_logs=None,
         )
 
         # Final status update then exit.
